@@ -1,0 +1,374 @@
+Part 1 
+Program:
+
+import numpy as np
+
+arr1 = np.array([1, 2, 3, 4, 5])
+arr2 = np.array([[1, 2, 3], [4, 5, 6]])
+
+arr1_reshaped = arr1.reshape(5, 1) 
+
+arr2_flat = arr2.flatten() 
+
+print("Original Array (arr1):", arr1)
+print("Reshaped arr1 (5x1):\n", arr1_reshaped)
+print("Flattened arr2:", arr2_flat)
+print("Array arr1 + 5:", arr1 + 5)
+print("Sliced arr1[1:4]:", arr1[1:4])
+print("Reshaped arr2 (3x2):\n", arr2.reshape(3, 2))
+
+print("Sum of arr1:", np.sum(arr1))
+print("Mean of arr2:", np.mean(arr2))
+print("Transpose of arr2:\n", arr2.T)
+
+output:
+Original Array (arr1): [1 2 3 4 5]
+Reshaped arr1 (5x1):
+ [[1]
+ [2]
+ [3]
+ [4]
+ [5]]
+Flattened arr2: [1 2 3 4 5 6]
+Array arr1 + 5: [ 6  7  8  9 10]
+Sliced arr1[1:4]: [2 3 4]
+Reshaped arr2 (3x2):
+ [[1 2]
+ [3 4]
+ [5 6]]
+Sum of arr1: 15
+Mean of arr2: 3.5
+Transpose of arr2:
+ [[1 4]
+ [2 5]
+ [3 6]]
+
+ part 2
+
+Program:
+
+import pandas as pd
+
+# Creating DataFrame
+data = {
+    'Name': ['Alice', 'Bob', 'Charlie'],
+    'Age': [25, 30, 35],
+    'Score': [85, 90, 88],
+    'City': ['New York', 'Los Angeles', 'Chicago']
+}
+df = pd.DataFrame(data)
+
+# Displaying the DataFrame
+print("\nDataFrame:")
+print(df)
+
+# DataFrame Information
+print("\nDataFrame Info:")
+print(df.info())
+
+# Descriptive Statistics
+print("\nStatistics:")
+print(df.describe())
+
+# Checking for missing values
+print("\nMissing Values:")
+print(df.isnull().sum())
+
+# Counting unique values in 'City' column
+print("\nUnique Cities Count:")
+print(df['City'].nunique())
+
+# Value counts of 'City' column
+print("\nCity Value Counts:")
+print(df['City'].value_counts())
+
+# Sorting by 'Age' in descending order
+print("\nSorted by Age (Descending):")
+print(df.sort_values(by='Age', ascending=False))
+
+# Adding a new column 'Age Group' based on 'Age'
+df['Age Group'] = pd.cut(df['Age'], bins=[20, 30, 40], labels=['20-30', '30-40'])
+print("\nDataFrame with Age Group:")
+print(df)
+
+# Applying a function to 'Score' column to categorize scores
+df['Score Category'] = df['Score'].apply(lambda x: 'High' if x >= 90 else 'Medium' if x >= 80 else 'Low')
+print("\nDataFrame with Score Category:")
+print(df)
+
+# Grouping by 'Age Group' and calculating mean 'Score' with observed=True
+print("\nMean Score by Age Group:")
+print(df.groupby('Age Group', observed=True)['Score'].mean())
+
+# Resetting index
+df_reset = df.reset_index(drop=True)
+print("\nDataFrame with Reset Index:")
+print(df_reset)
+
+# Dropping 'Age Group' column
+df_dropped = df.drop(columns=['Age Group'])
+print("\nDataFrame with 'Age Group' Dropped:")
+print(df_dropped)
+
+
+
+# Existing DataFrame
+data = {
+    'Name': ['Alice', 'Bob', 'Charlie'],
+    'Age': [25, 30, 35],
+    'Score': [85, 90, 88],
+    'City': ['New York', 'Los Angeles', 'Chicago']
+}
+df = pd.DataFrame(data)
+
+# Creating two DataFrames to demonstrate merging
+df1 = pd.DataFrame({
+    'ID': [1, 2, 3],
+    'Name': ['Alice', 'Bob', 'Charlie'],
+    'Age': [25, 30, 35]
+})
+
+df2 = pd.DataFrame({
+    'ID': [2, 3, 4],
+    'Score': [90, 88, 95],
+    'City': ['Los Angeles', 'Chicago', 'Houston']
+})
+
+# Merge on 'ID' using different join types
+
+# Inner join (only matching IDs)
+merged_inner = pd.merge(df1, df2, on='ID', how='inner')
+print("\nInner Merge Result:")
+print(merged_inner)
+
+# Left join (all from df1, matched from df2)
+merged_left = pd.merge(df1, df2, on='ID', how='left')
+print("\nLeft Merge Result:")
+print(merged_left)
+
+# Right join (all from df2, matched from df1)
+merged_right = pd.merge(df1, df2, on='ID', how='right')
+print("\nRight Merge Result:")
+print(merged_right)
+
+# Outer join (all from both, matched where possible)
+merged_outer = pd.merge(df1, df2, on='ID', how='outer')
+print("\nOuter Merge Result:")
+print(merged_outer)
+
+
+
+
+
+
+
+
+part 3
+Program:
+
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+import plotly.express as px
+
+
+# Sample DataFrame
+data = {
+    'Name': ['Alice', 'Bob', 'Charlie'],
+    'Age': [25, 30, 35],
+    'Score': [85, 90, 88],
+    'City': ['New York', 'Los Angeles', 'Chicago']
+}
+df = pd.DataFrame(data)
+
+# Line Plot
+plt.figure(figsize=(8, 5))
+plt.plot(df['Name'], df['Score'], marker='o', color='b', linestyle='-', markersize=8)
+plt.title('Scores of Students')
+plt.xlabel('Name')
+plt.ylabel('Score')
+plt.grid(True)
+plt.show()
+
+# Bar Plot
+plt.figure(figsize=(8, 5))
+plt.bar(df['Name'], df['Age'], color='orange')
+plt.title('Age of Students')
+plt.xlabel('Name')
+plt.ylabel('Age')
+plt.show()
+
+# Pie Chart
+plt.figure(figsize=(8, 5))
+plt.pie(df['Score'], labels=df['Name'], autopct='%1.1f%%', startangle=90, colors=plt.cm.Paired.colors)
+plt.title('Score Distribution')
+plt.show()
+
+# Histogram
+plt.figure(figsize=(8, 5))
+plt.hist(df['Age'], bins=5, color='green', edgecolor='black')
+plt.title('Age Distribution')
+plt.xlabel('Age')
+plt.ylabel('Frequency')
+plt.show()
+
+# Scatter Plot
+plt.figure(figsize=(8, 5))
+plt.scatter(df['Age'], df['Score'], color='red', s=100)
+plt.title('Age vs Score')
+plt.xlabel('Age')
+plt.ylabel('Score')
+plt.grid(True)
+plt.show()
+
+# Box Plot
+plt.figure(figsize=(8, 5))
+plt.boxplot(df['Age'], vert=False, patch_artist=True, boxprops=dict(facecolor='cyan'))
+plt.title('Age Distribution (Box Plot)')
+plt.xlabel('Age')
+plt.show()
+
+# Heatmap
+plt.figure(figsize=(8, 5))
+data = np.random.rand(10, 10)
+plt.imshow(data, cmap='viridis', interpolation='nearest')
+plt.colorbar()
+plt.title('Random Data Heatmap')
+plt.show()
+
+# Violin Plot
+plt.figure(figsize=(8, 5))
+plt.violinplot(df['Age'], vert=False, showmeans=True)
+plt.title('Age Distribution (Violin Plot)')
+plt.xlabel('Age')
+plt.show()
+
+# Area Plot
+plt.figure(figsize=(8, 5))
+plt.fill_between(df['Name'], df['Score'], color='skyblue', alpha=0.4)
+plt.plot(df['Name'], df['Score'], color='Slateblue', alpha=0.6)
+plt.title('Score Distribution (Area Plot)')
+plt.xlabel('Name')
+plt.ylabel('Score')
+plt.show()
+
+# Polar Plot
+plt.figure(figsize=(8, 5))
+angles = np.linspace(0, 2 * np.pi, len(df['Name']), endpoint=False)
+radii = df['Score']
+plt.subplot(111, polar=True)
+plt.bar(angles, radii, width=0.3, color='purple', alpha=0.6)
+plt.title('Score Distribution (Polar Plot)')
+plt.show()
+
+# 3D Surface Plot
+from mpl_toolkits.mplot3d import Axes3D
+fig = plt.figure(figsize=(8, 5))
+ax = fig.add_subplot(111, projection='3d')
+X = np.linspace(-5, 5, 100)
+Y = np.linspace(-5, 5, 100)
+X, Y = np.meshgrid(X, Y)
+Z = np.sin(np.sqrt(X**2 + Y**2))
+ax.plot_surface(X, Y, Z, cmap='inferno')
+ax.set_title('3D Surface Plot')
+plt.show()
+x = np.random.randn(10000)
+y = np.random.randn(10000)
+# Create hexbin plot
+plt.hexbin(x, y, gridsize=30, cmap='viridis', bins='log', mincnt=1, edgecolors='black')
+plt.colorbar(label='Log10(Counts)')
+plt.title('Customized Hexbin Plot')
+plt.xlabel('X-axis')
+plt.ylabel('Y-axis')
+plt.show()
+
+data = np.random.randn(1000)
+
+# Plot histogram
+plt.hist(data, bins=30, edgecolor='black')
+plt.title('Histogram of Random Data')
+plt.xlabel('Value')
+plt.ylabel('Frequency')
+plt.show()
+
+
+# Generate random data
+data1 = np.random.randn(1000)
+data2 = np.random.randn(1000)
+
+# Plot multiple histograms
+plt.hist(data1, bins=30, alpha=0.5, label='Data 1')
+plt.hist(data2, bins=30, alpha=0.5, label='Data 2')
+plt.title('Overlayed Histograms')
+plt.xlabel('Value')
+plt.ylabel('Frequency')
+plt.legend()
+plt.show()
+
+# Data
+x = ['A', 'B', 'C', 'D', 'E']
+y = [3, 7, 2, 5, 8]
+
+# Create stem plot
+fig, ax = plt.subplots()
+ax.stem(x, y, linefmt='--g', markerfmt='ro', basefmt=" ")
+
+# Customize plot
+ax.set_title('Customized Lollipop Plot')
+ax.set_xlabel('Categories')
+ax.set_ylabel('Values')
+plt.show()
+
+
+
+x = [1, 2, 3, 4, 5]
+y = [10, 20, 30, 40, 50]
+sizes = [100, 200, 300, 400, 500]
+colors = np.random.rand(len(x))
+
+# Create bubble chart
+plt.scatter(x, y, s=sizes, c=colors, alpha=0.5, cmap='viridis')
+
+# Add color bar
+plt.colorbar(label='Color Intensity')
+
+# Add labels and title
+plt.xlabel('X Axis')
+plt.ylabel('Y Axis')
+plt.title('Basic Bubble Chart')
+
+plt.show()
+
+
+# Sample data
+df = px.data.iris()
+
+# Create interactive bubble chart
+fig = px.scatter(df, x='sepal_width', y='sepal_length', size='petal_length', color='species',
+                 hover_data=['petal_width'])
+
+# Show the plot
+fig.show()
+
+
+# Load the Gapminder dataset
+url = 'https://raw.githubusercontent.com/holtzy/The-Python-Graph-Gallery/master/static/data/gapminderData.csv'
+data = pd.read_csv(url)
+
+# Initialize the plot
+fig, ax = plt.subplots(figsize=(10, 10))
+
+# Function to update the plot for each frame
+def update(year):
+    ax.clear()
+    data_year = data[data['year'] == year]
+    ax.scatter(data_year['lifeExp'], data_year['gdpPercap'], s=data_year['pop'] / 50000,
+               c=data_year['continent'].astype('category').cat.codes, cmap='viridis', alpha=0.6,
+               edgecolors='w', linewidth=0.5)
+    ax.set_title(f'Year: {year}')
+    ax.set_xlabel('Life Expectancy')
+    ax.set_ylabel('GDP per Capita')
+    ax.set_xscale('log')
+    ax.set_yscale('log')
+    ax.set_xlim(30, 90)
+    ax.set_ylim(100, 100000)
